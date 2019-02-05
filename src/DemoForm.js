@@ -1,9 +1,9 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 
-let DemoForm = () => {
+let DemoForm = ({ handleSubmit }) => {
 	return (
-		<form>
+		<form onSubmit={handleSubmit}>
 			<label htmlFor="cut_off_time">Cut off time</label>
 			<Field name="cut_off_time" component="input" />
 			<button type="Submit">Submit</button>
