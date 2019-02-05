@@ -5,6 +5,8 @@ let DemoForm = () => {
 	return <div>Test</div>;
 };
 
-DemoForm = reduxForm({})(DemoForm);
+DemoForm = reduxForm({
+	form: 'demo'
+})(DemoForm);
 
 export default DemoForm;
