@@ -1,8 +1,14 @@
 import React from 'react';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 
 let DemoForm = () => {
-	return <div>Test</div>;
+	return (
+		<form>
+			<label htmlFor="cut_off_time">Cut off time</label>
+			<Field name="cut_off_time" component="input" />
+			<button type="Submit">Submit</button>
+		</form>
+	);
 };
 
 DemoForm = reduxForm({
