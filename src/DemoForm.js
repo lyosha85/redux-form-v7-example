@@ -2,19 +2,34 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import showResults from './showResults';
 
+const validateHhMm = t =>
+	/^(?:(?:(?:0?\d|1[012]):[0-5]\d(?::00)? ?[ap|AP]m|M)|(?:[01]?\d|2[0-3]):[0-5]\d(?::00)?)$/.test(t);
+
 const validate = values => {
 	const errors = {};
 	if (!values.cut_off_time) {
 		errors.cut_off_time = 'Required';
 	}
+	if (!validateHhMm(values.cut_off_time)) {
+		errors.cut_off_time = 'Invalid Time';
+	}
 	return errors; // has to be the exact same shape as values object
+};
+
+const renderInput = ({ input, meta, label }) => {
+	return (
+		<div>
+			{meta.error && meta.touched ? <span> {meta.error} </span> : ''}
+			<label>{label}</label>
+			<input {...input} />
+		</div>
+	);
 };
 
 let DemoForm = ({ handleSubmit, submitting }) => {
 	return (
 		<form onSubmit={handleSubmit(showResults)}>
-			<label htmlFor="cut_off_time">Cut off time</label>
-			<Field name="cut_off_time" component="input" />
+			<Field label="Cut off time" name="cut_off_time" component={renderInput} />
 			<button type="Submit" disabled={submitting}>
 				Submit
 			</button>
