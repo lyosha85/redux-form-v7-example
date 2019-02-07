@@ -16,24 +16,34 @@ const validate = values => {
 	return errors; // has to be the exact same shape as values object
 };
 
-const createRenderer = render => ({ input, meta, label }) => {
+const createRenderer = render => ({ input, meta, label, ...rest }) => {
 	return (
 		<div>
 			{meta.error && meta.touched ? <span> {meta.error} </span> : ''}
 			<label>{label}</label>
-			{render(input, label)}
+			{render(input, label, rest)}
 		</div>
 	);
 };
 
 const RenderInput = createRenderer((input, label) => <input {...input} placeholder={label} />);
-const RenderSelect = createRenderer((input, label) => <select {...input} placeholder={label} />);
+const RenderSelect = createRenderer((input, label, { children }) => (
+	<select {...input} placeholder={label}>
+		{children}
+	</select>
+));
 
 let DemoForm = ({ handleSubmit, submitting }) => {
 	return (
 		<form onSubmit={handleSubmit(showResults)}>
 			<Field label="Cut off time" name="cut_off_time" component={RenderInput} />
-			<Field label="Open?" name="open_or_closed" component={RenderSelect} />
+			<Field label="Open?" name="open_or_closed" component={RenderSelect}>
+				{['open', 'closed'].map(op => (
+					<option key={op} value={op}>
+						op
+					</option>
+				))}
+			</Field>
 			<button type="Submit" disabled={submitting}>
 				Submit
 			</button>
